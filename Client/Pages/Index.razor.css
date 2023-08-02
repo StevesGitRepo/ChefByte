@@ -1,0 +1,53 @@
+﻿
+
+.page{
+    background-image: url(images/ChefGPTBgPurplePink.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: var(--bs-primary);
+    font-size: 1.2rem;
+}
+
+.pagestyle{
+    display: flex;
+    flex-direction: column;
+    backdrop-filter:blur(2px) brightness(40%);
+    height:100%;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+footer {
+    flex-shrink: 0;
+}
+
+.landingPage{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.btn {
+    color: #FFF;
+}
+
+.btn-light {
+    color: var(--bs-emphasis-color);
+    background-color: var(--bs-warning);
+    opacity: 100%;
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.btn-outline-light:hover {
+    color: var(--bs-emphasis-color);
+}
