@@ -13,20 +13,26 @@
     font-size: 1.2rem;
 }
 
+@media (max-width: 480px) {
+    .page {
+        background-image: url(images/cbMobileBg.PNG);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        font-size: 1.2rem;
+    }
+}
+    
+
 .pagestyle {
     display: flex;
     flex-direction: column;
     backdrop-filter: blur(2px) brightness(40%);
     height: 100%;
-}
-
-@media (max-width: 991px) {
-    .pagestyle {
-        display: flex;
-        flex-direction: column;
-        backdrop-filter: blur(2px) brightness(40%);
-        height: 100%;
-    }
 }
 
 main {
