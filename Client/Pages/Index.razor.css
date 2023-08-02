@@ -20,6 +20,15 @@
     height: 100%;
 }
 
+@media (max-width: 991px) {
+    .pagestyle {
+        display: flex;
+        flex-direction: column;
+        backdrop-filter: blur(2px) brightness(40%);
+        height: 100%;
+    }
+}
+
 main {
     flex: 1 0 auto;
 }
