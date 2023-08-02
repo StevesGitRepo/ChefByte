@@ -1,3 +1,3 @@
-﻿function printInvoke() {
+﻿/*function printInvoke() {
     window.print();
-};
+};*/
