@@ -19,7 +19,7 @@
                     <div class="col-lg-8">
                         <p class="">@recipe.summary</p>
                         <div class="text-end">
-                            <button class="btn btn-success d-print-none" >Print</button>
+                            <button class="btn btn-success d-print-none" @onclick="Print" >Print</button>
                         </div>
                         <hr>
                         <p><span class="fw-bold text-pink">PRO TIP: </span>AI-generated recipes can be unpredictable.  If it's not food don't eat it, otherwise enjoy!</p>
@@ -116,8 +116,8 @@ else
         }
     }
 
-    //private async Task Print()
-    //{
-      //  await Js.InvokeVoidAsync("printInvoke");
-    //}
+    private async Task Print()
+    {
+        await Js.InvokeVoidAsync("printInvoke");
+    }
 }
