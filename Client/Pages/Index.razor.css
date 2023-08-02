@@ -8,6 +8,7 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    backdrop-filter:blur(1.8px) brightness(40%);
     height: 100%;
     color: var(--bs-primary);
     font-size: 1.2rem;
@@ -16,7 +17,7 @@
 .pagestyle{
     display: flex;
     flex-direction: column;
-    backdrop-filter:blur(2px) brightness(40%);
+    
     height:100%;
 }
 
