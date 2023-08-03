@@ -2,7 +2,8 @@
 @using ChefGPT.Shared
 @using System.Text.Json
 @using System.Web
-@*@inject JSRuntime Javascript*@
+@using Microsoft.JSInterop
+@inject JSRuntime Javascript
 @inject HttpClient Http
 @inject NavigationManager Navigation
 
@@ -18,9 +19,9 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <p class="">@recipe?.summary</p>
-                        @*<div class="text-end">
-                            <button class="btn btn-success d-print-none" @onclick="Print" >Print</button>
-                        </div>*@
+                        <div class="text-end">
+                            <button class="btn btn-success d-print-none" @onclick="Print" >Print Recipe</button>
+                        </div>
                         <hr>
                         <p><span class="fw-bold text-pink">PRO TIP: </span>AI-generated meals can be unpredictable. If it's not food don't eat it, otherwise enjoy!</p>
                         <div class="text-center ">
@@ -117,8 +118,8 @@ else
         }
     }
 
-    //private async Task Print()
-    //{
-        //await Javascript.InvokeVoidAsync("printInvoke");
-    //}
+    private async Task Print()
+    {
+        await Javascript.InvokeVoidAsync("printInvoke");
+    }
 }
