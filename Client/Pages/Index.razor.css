@@ -62,9 +62,6 @@ footer {
     font-weight: bold;
 }
 
-.btn-outline-light {
-    border: 2px;
-}
 .btn-outline-light:hover {
     color: var(--bs-emphasis-color);
 }
