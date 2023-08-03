@@ -55,18 +55,19 @@
 }
 else
 {
-    <RecipeSpinner></RecipeSpinner>
+    <ChefSpinner></ChefSpinner>
 }
 
 @code {
 
-    [CascadingParameter]
-    private RecipeState recipeState { get; set; }
+    private bool loaded = false;
 
     [Parameter]
     public int Index { get; set; }
 
-    bool loaded = false;
+    [CascadingParameter]
+    private RecipeState recipeState { get; set; }
+
     private string? title;
     private string recipeImageUrl = string.Empty;
     private Recipe? recipe;
