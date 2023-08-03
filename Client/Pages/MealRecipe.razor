@@ -38,7 +38,7 @@
                     @foreach (var item in recipe!.ingredients!)
                         {
                         <li>@item</li>
-                    }
+                        }
                 </ul>
             </div>
             <div class="col mt-3">
@@ -96,7 +96,7 @@ else
             //get recipe image
             HttpResponseMessage responseImage = await Http.GetAsync($"Recipe/getRecipeImage?title={HttpUtility.UrlEncode(title)}");
             var recipeImage = await responseImage.Content.ReadFromJsonAsync<RecipeImage>();
-            recipeImageUrl = recipeImage.data[0].url;
+            recipeImageUrl = recipeImage!.data[0].url;
 
 
             //get the recipe
