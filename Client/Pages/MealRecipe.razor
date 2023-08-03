@@ -14,10 +14,10 @@
                 <img src="@recipeImageUrl" class="rounded-3 recipeImage" />
             </div>
             <div class="flex-grow-1 px-5">
-                <h1 class="fw-bold">@recipe!.title</h1>
+                <h1 class="fw-bold">@recipe?.title</h1>
                 <div class="row">
                     <div class="col-lg-8">
-                        <p class="">@recipe.summary</p>
+                        <p class="">@recipe?.summary</p>
                         @*<div class="text-end">
                             <button class="btn btn-success d-print-none" @onclick="Print" >Print</button>
                         </div>*@
@@ -35,8 +35,8 @@
             <div class="col mt-3">
                 <h2>Ingredients</h2>
                 <ul>
-                    @foreach (var item in recipe.ingredients!)
-                    {
+                    @foreach (var item in recipe!.ingredients!)
+                        {
                         <li>@item</li>
                     }
                 </ul>
@@ -83,7 +83,7 @@ else
 
         try
         {
-            title = recipeState.Ideas.FirstOrDefault(i => i.index == Index).title;
+            title = recipeState.Ideas.FirstOrDefault(i => i.index == Index)!.title;
             loaded = true;
 
             RecipeParms recipeParms = new RecipeParms()
@@ -96,7 +96,7 @@ else
             //get recipe image
             HttpResponseMessage responseImage = await Http.GetAsync($"Recipe/getRecipeImage?title={HttpUtility.UrlEncode(title)}");
             var recipeImage = await responseImage.Content.ReadFromJsonAsync<RecipeImage>();
-            recipeImageUrl = recipeImage!.data[0]!.url;
+            recipeImageUrl = recipeImage.data[0].url;
 
 
             //get the recipe
