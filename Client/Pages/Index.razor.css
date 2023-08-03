@@ -65,3 +65,7 @@ footer {
 .btn-outline-light:hover {
     color: var(--bs-emphasis-color);
 }
+
+.small-footer-text {
+    font-size: x-small;
+}
