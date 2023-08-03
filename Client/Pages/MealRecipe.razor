@@ -14,7 +14,7 @@
                 <img src="@recipeImageUrl" class="rounded-3 recipeImage" />
             </div>
             <div class="flex-grow-1 px-5">
-                <h1 class="fw-bold">@recipe.title</h1>
+                <h1 class="fw-bold">@recipe!.title</h1>
                 <div class="row">
                     <div class="col-lg-8">
                         <p class="">@recipe.summary</p>
@@ -35,7 +35,7 @@
             <div class="col mt-3">
                 <h2>Ingredients</h2>
                 <ul>
-                    @foreach (var item in recipe.ingredients)
+                    @foreach (var item in recipe.ingredients!)
                     {
                         <li>@item</li>
                     }
@@ -44,7 +44,7 @@
             <div class="col mt-3">
                 <h2>Instructions</h2>
                 <ul>
-                    @foreach (var item in recipe.instructions)
+                    @foreach (var item in recipe.instructions!)
                     {
                         <li>@item</li>
                     }
