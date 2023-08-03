@@ -89,12 +89,12 @@ else
 
         try
         {
-            title = recipeState.Ideas.FirstOrDefault(i => i.index == Index)!.title;
+            title = recipeState?.Ideas.FirstOrDefault(i => i.index == Index)!.title;
             loaded = true;
 
             RecipeParms recipeParms = new RecipeParms()
                 {
-                    MeatTime = recipeState.MealTime,
+                    MeatTime = recipeState!.MealTime,
                     Ingredients = recipeState.Ingredients,
                     SelectedIdea = title
                 };
@@ -127,3 +127,4 @@ else
         await Javascript.InvokeVoidAsync("printInvoke");
     }
 }
+<MealIdeas />
