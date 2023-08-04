@@ -21,7 +21,7 @@ namespace ChefGPT.Server.Controllers
         [HttpPost, Route("GetRecipeIdeas")]
         public async Task<ActionResult<List<Idea>>> GetRecipeIdeas(RecipeParms recipeParms)
         {
-            string mealtime = recipeParms.MeatTime;
+            string mealtime = recipeParms.MealTime;
             List<string?> ingredients = recipeParms.Ingredients
                                                   .Where(x => !string.IsNullOrEmpty(x.Description))
                                                   .Select(x => x.Description)

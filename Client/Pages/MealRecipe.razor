@@ -2,9 +2,6 @@
 @using ChefGPT.Shared
 @using System.Text.Json
 @using System.Web
-@using Microsoft.JSInterop.Implementation
-@using Microsoft.JSInterop.Infrastructure
-@using Microsoft.JSInterop.WebAssembly
 @using Microsoft.JSInterop
 
 @inject IJSRuntime Javascript
@@ -24,7 +21,7 @@
                     <div class="col-lg-10">
                         <p class="">@recipe?.summary</p>
                         <div class="text-end">
-                            <button class="btn btn-primary d-print-none" @onclick="Print" >Print Recipe</button>
+                            <button class="btn btn-primary d-print-none" @onclick="Print">Print Recipe</button>
                         </div>
                         <hr>
                         <p><span class="fw-bold text-pink">PRO TIP: </span>AI-generated meals may be unpredictable. If it's not food don't eat it, otherwise enjoy!</p>
@@ -40,16 +37,19 @@
             <div class="col mt-3">
                 <h2>Ingredients</h2>
                 <ul>
-                    @foreach (var item in recipe!.ingredients!)
+                    @if (recipe is not null)
+                    {
+                        @foreach (var item in recipe.ingredients!)
                         {
-                        <li>@item</li>
+                            <li>@item</li>
                         }
+                    }
                 </ul>
             </div>
             <div class="col mt-3">
                 <h2>Instructions</h2>
                 <ul>
-                    @foreach (var item in recipe.instructions!)
+                    @foreach (var item in recipe!.instructions!)
                     {
                         <li>@item</li>
                     }
@@ -87,39 +87,43 @@ else
     {
         string baseuri = "Recipe/GetRecipe";
 
-        try
+        if (recipeState is not null)
         {
-            title = recipeState.Ideas.FirstOrDefault(i => i.index == Index)?.title;
-            loaded = true;
+            try
+            {
+                title = recipeState.Ideas.FirstOrDefault(i => i.index == Index)?.title;
+                loaded = true;
 
-            RecipeParms recipeParms = new RecipeParms()
-                {
-                    MeatTime = recipeState.MealTime,
-                    Ingredients = recipeState.Ingredients,
-                    SelectedIdea = title
-                };
+                RecipeParms recipeParms = new RecipeParms()
+                    {
+                        MealTime = recipeState.MealTime,
+                        Ingredients = recipeState.Ingredients,
+                        SelectedIdea = title
+                    };
 
-            //get recipe image
-            HttpResponseMessage responseImage = await Http.GetAsync($"Recipe/getRecipeImage?title={HttpUtility.UrlEncode(title)}");
-            var recipeImage = await responseImage.Content.ReadFromJsonAsync<RecipeImage>();
-            recipeImageUrl = recipeImage!.data[0].url;
+                //get recipe image
+                HttpResponseMessage responseImage = await Http.GetAsync($"Recipe/getRecipeImage?title={HttpUtility.UrlEncode(title)}");
+                var recipeImage = await responseImage.Content.ReadFromJsonAsync<RecipeImage>();
+                recipeImageUrl = recipeImage!.data[0].url;
 
 
-            //get the recipe
-            HttpResponseMessage responseRecipe = await Http.PostAsJsonAsync(baseuri, recipeParms);
+                //get the recipe
+                HttpResponseMessage responseRecipe = await Http.PostAsJsonAsync(baseuri, recipeParms);
 
-            responseRecipe.EnsureSuccessStatusCode();
+                responseRecipe.EnsureSuccessStatusCode();
 
-            recipe = (await responseRecipe.Content.ReadFromJsonAsync<Recipe>());
+                recipe = (await responseRecipe.Content.ReadFromJsonAsync<Recipe>());
 
-            loaded = true;
-            StateHasChanged();
+                loaded = true;
+                StateHasChanged();
 
+            }
+            catch
+            {
+                Console.WriteLine("Error: Could not generate recipe.");
+            }
         }
-        catch
-        {
-            Console.WriteLine("Error: Could not generate recipe.");
-        }
+
     }
 
     private async Task Print()
