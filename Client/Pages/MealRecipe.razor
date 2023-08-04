@@ -27,7 +27,7 @@
                             <button class="btn btn-primary d-print-none" @onclick="Print" >Print Recipe</button>
                         </div>
                         <hr>
-                        <p><span class="fw-bold text-pink">PRO TIP: </span>AI-generated meals can be unpredictable. If it's not food don't eat it, otherwise enjoy!</p>
+                        <p><span class="fw-bold text-pink">PRO TIP: </span>AI-generated meals may be unpredictable. If it's not food don't eat it, otherwise enjoy!</p>
                         <div class="text-center ">
                             <img class="d-print-none" src="/images/ChefByteTalkingHead.png" width="150" />
                         </div>
@@ -67,11 +67,11 @@ else
 
     private bool loaded = false;
 
-    [Parameter]
-    public int Index { get; set; }
-
     [CascadingParameter]
     private RecipeState? recipeState { get; set; }
+
+    [Parameter]
+    public int Index { get; set; }
 
     private string? title;
     private string recipeImageUrl = string.Empty;
