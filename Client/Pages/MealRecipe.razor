@@ -37,12 +37,9 @@
             <div class="col mt-3">
                 <h2>Ingredients</h2>
                 <ul>
-                    @if (recipe is not null)
-                    {
-                        @foreach (var item in recipe.ingredients!)
+                    @foreach (var item in recipe!.ingredients!)
                         {
-                            <li>@item</li>
-                        }
+                        <li>@item</li>
                     }
                 </ul>
             </div>

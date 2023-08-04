@@ -31,7 +31,7 @@ else
     private bool loaded = false;
 
     [CascadingParameter]
-    private RecipeState rState { get; set; }
+    private RecipeState? rState { get; set; }
 
     private readonly JsonSerializerOptions _jsonOptions = new()
         {
@@ -65,10 +65,10 @@ else
         // THIS CALLS ChefGPT.Server
         string baseuri = "Recipe/GetRecipeIdeas";
         loaded = false;
-
+            
         RecipeParms recipeParms = new RecipeParms()
             {
-                MealTime = rState.MealTime,
+                MealTime = rState!.MealTime,
                 Ingredients = rState.Ingredients
             };
 
