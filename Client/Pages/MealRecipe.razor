@@ -109,7 +109,7 @@ else
 
                 responseRecipe.EnsureSuccessStatusCode();
 
-                recipe = (await responseRecipe.Content.ReadFromJsonAsync<Recipe>());
+                recipe = (await responseRecipe.Content.ReadFromJsonAsync<Recipe>())!;
 
                 loaded = true;
                 StateHasChanged();
