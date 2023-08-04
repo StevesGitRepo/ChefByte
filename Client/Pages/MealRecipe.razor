@@ -89,7 +89,7 @@ else
 
         try
         {
-            title = recipeState?.Ideas.FirstOrDefault(i => i.index == Index)!.title;
+            title = recipeState.Ideas.FirstOrDefault(i => i.index == Index)?.title;
             loaded = true;
 
             RecipeParms recipeParms = new RecipeParms()
