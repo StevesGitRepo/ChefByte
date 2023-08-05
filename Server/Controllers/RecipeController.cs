@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ChefGPT.Shared;
 using ChefGPT.Server.Services;
+using Microsoft.Extensions.Primitives;
 
 namespace ChefGPT.Server.Controllers
 {
@@ -55,7 +56,7 @@ namespace ChefGPT.Server.Controllers
                 return BadRequest();
             }
 
-            var recipe = await _openAIService.CreateRecipe(title, ingredients);
+            var recipe = await _openAIService?.CreateRecipe(title, ingredients);
             return recipe;
         }
 
