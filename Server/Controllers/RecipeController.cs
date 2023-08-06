@@ -18,7 +18,6 @@ namespace ChefGPT.Server.Controllers
             _openAIService = openAIService;
         }
 
-
         [HttpPost, Route("GetRecipeIdeas")]
         public async Task<ActionResult<List<Idea>>> GetRecipeIdeas(RecipeParms recipeParms)
         {
@@ -33,27 +32,6 @@ namespace ChefGPT.Server.Controllers
             }
 
             var ideas = await _openAIService.CreateRecipeIdeas(mealtime, ingredients);
-
-            return ideas;
-
-            //return SampleData.RecipeIdeas;
-
-        }
-
-        [HttpPost, Route("GetGlutenFreeRecipeIdeas")]
-        public async Task<ActionResult<List<Idea>>> GetGlutenFreeRecipeIdeas(RecipeParms recipeParms)
-        {
-            string mealtime = recipeParms.MealTime;
-            List<string?> ingredients = recipeParms.Ingredients
-                                                  .Where(x => !string.IsNullOrEmpty(x.Description))
-                                                  .Select(x => x.Description)
-                                                  .ToList();
-            if (string.IsNullOrEmpty(mealtime))
-            {
-                mealtime = "Breakfast";
-            }
-
-            var ideas = await _openAIService.CreateGlutenFreeRecipeIdeas(mealtime, ingredients);
 
             return ideas;
 
@@ -81,40 +59,12 @@ namespace ChefGPT.Server.Controllers
             return recipe;
         }
 
-        [HttpPost, Route("GetGlutenFreeRecipe")]
-        public async Task<ActionResult<Recipe?>> GetGlutenFreeRecipe(RecipeParms recipeParms)
-        {
-            List<string> ingredients = recipeParms.Ingredients
-                                                    .Where(x => !string.IsNullOrEmpty(x.Description))
-                                                    .Select(x => x.Description!)
-                                                    .ToList();
-            string? title = recipeParms.SelectedIdea;
-
-            if (string.IsNullOrEmpty(title))
-            {
-                return BadRequest();
-            }
-
-            var recipe = await _openAIService?.CreateGlutenFreeRecipe(title, ingredients);
-            return recipe;
-        }
-
         [HttpGet, Route("GetRecipeImage")]
         public async Task<RecipeImage> GetRecipeImage(string title)
         {
             //return SampleData.RecipeImage;
 
             var recipeImage = await _openAIService.CreateRecipeImage(title);
-
-            return recipeImage ?? SampleData.RecipeImage;
-        }
-
-        [HttpGet, Route("GetGlutenFreeRecipeImage")]
-        public async Task<RecipeImage> GetGlutenFreeRecipeImage(string title)
-        {
-            //return SampleData.RecipeImage;
-
-            var recipeImage = await _openAIService.CreateGlutenFreeRecipeImage(title);
 
             return recipeImage ?? SampleData.RecipeImage;
         }

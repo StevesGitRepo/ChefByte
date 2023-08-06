@@ -54,16 +54,15 @@ footer {
     color: #FFF;
 }
 
-.btn-light {
-    color: var(--bs-emphasis-color);
-    background-color: var(--bs-warning);
-    opacity: 100%;
-    font-size: 1.4rem;
-    font-weight: bold;
+.btn-outline-light {
+    font-size: x-large;
+    font-family: 'Staatliches', sans-serif;
+    color: white;
+    font-weight:400;
 }
 
 .btn-outline-light:hover {
-    color: var(--bs-emphasis-color);
+    color: #43025B;
 }
 
 .small-footer-text {
