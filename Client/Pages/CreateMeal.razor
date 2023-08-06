@@ -62,9 +62,12 @@
                             </table>
                         </div>
                     </div>
-                    <div class="col-12">
+                    <div class="col-">
                         <button class="btn btn-primary rounded" @onclick="HandleSubmit">
                             Make A Meal
+                        </button>
+                        <button class="btn btn-primary rounded ms-2" @onclick="GlutenFreeHandleSubmit">
+                            Gluten-Free
                         </button>
                     </div>
                 </div>
@@ -145,5 +148,13 @@
         rState.MealTime = meal.mealtime;
         rState.Ingredients = ingredients;
         navigationManager.NavigateTo("/mealideas");
+    }
+
+    <!--GLUTEN-FREE SUBMIT METHOD-->
+    private void GlutenFreeHandleSubmit()
+    {
+        rState.MealTime = meal.mealtime;
+        rState.Ingredients = ingredients;
+        navigationManager.NavigateTo("/glutenfreemealideas");
     }
 }

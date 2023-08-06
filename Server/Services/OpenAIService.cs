@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using System.Linq.Expressions;
 using System.Reflection.Metadata.Ecma335;
 using ChefGPT.Shared;
+using ChefGPT.Client.Pages;
 
 namespace ChefGPT.Server.Services
 {
@@ -137,7 +138,7 @@ namespace ChefGPT.Server.Services
             string systemPrompt = "You are a world-renowned chef. I will send you a list of ingredients and a meal time. You will respond with 5 ideas for dishes.";
             string userPrompt = "";
             string ingredientPrompt = "";
-                
+
             string ingredients = string.Join(",", ingredientList);
 
             if (string.IsNullOrEmpty(ingredients))
@@ -201,45 +202,66 @@ namespace ChefGPT.Server.Services
             return ideasResult?.Data ?? new List<Idea>();
         }
 
-        public async Task<Recipe?> CreateRecipe(string title, List<string> ingredients)
+        public async Task<List<Idea>> CreateGlutenFreeRecipeIdeas(string mealtime, List<string> ingredientList)
         {
             string url = $"{_baseUrl}chat/completions";
-            string systemPrompt = "You are a world-renowned chef. Create the recipe with ingredients, instructions and a summary";
-            string userPrompt = $"Create a {title} recipe";
+            string systemPrompt = "You are a world-renowned chef. I will send you a list of ingredients and a meal time. You will respond with 5 gluten-free ideas for dishes.";
+            string userPrompt = "";
+            string ingredientPrompt = "";
 
+            string ingredients = string.Join(" ", ingredientList);
+
+            if (string.IsNullOrEmpty(ingredients))
+            {
+                ingredientPrompt = "Suggest some ingredients for me.";
+            }
+            else
+            {
+                ingredientPrompt = $"I have {ingredients}";
+            }
+            userPrompt = $"The meal I want to cook is {mealtime}. {ingredientPrompt}";
+
+            ChatMessage systemMessage = new()
+            {
+                Role = "system",
+                Content = $"{systemPrompt}"
+            };
             ChatMessage userMessage = new()
             {
                 Role = "user",
-                Content = $"{systemPrompt} {userPrompt}"
+                Content = $"{userPrompt}"
             };
 
             ChatRequest request = new()
             {
                 Model = "gpt-3.5-turbo-0613",
-                Messages = new[] { userMessage },
-                Functions = new[] { _recipeFunction },
-                FunctionCall = new { Name = _recipeFunction.Name}
+                Messages = new[] { systemMessage, userMessage },
+                Functions = new[] { _ideaFunction },
+                FunctionCall = new { Name = _ideaFunction.Name }
+
             };
 
             HttpResponseMessage httpResponse = await _httpClient.PostAsJsonAsync(url, request, _jsonOptions);
 
-            ChatResponse? response = await httpResponse.Content.ReadFromJsonAsync<ChatResponse?>();
+            ChatResponse? response = await httpResponse.Content.ReadFromJsonAsync<ChatResponse>();
 
-            ChatFunctionResponse? functionResponse = response?.Choices?
-                                                             .FirstOrDefault(m => m.Message?.FunctionCall is not null)?
-                                                             .Message?
-                                                             .FunctionCall;
-            Result<Recipe>? recipe = new();
+            //get the first message in the function call
+            ChatFunctionResponse? functionResponse = response.Choices
+                                                    .FirstOrDefault(m => m.Message?.FunctionCall is not null)
+                                                    .Message?
+                                                    .FunctionCall;
+            Result<List<Idea>>? ideasResult = new();
 
             if (functionResponse?.Arguments is not null)
             {
                 try
                 {
-                    recipe = JsonSerializer.Deserialize<Result<Recipe>>(functionResponse.Arguments, _jsonOptions);
+                    ideasResult = JsonSerializer.Deserialize<Result<List<Idea>>>(functionResponse.Arguments, _jsonOptions);
                 }
+
                 catch (Exception ex)
                 {
-                    recipe = new()
+                    ideasResult = new()
                     {
                         Exception = ex,
                         ErrorMessage = await httpResponse.Content.ReadAsStringAsync()
@@ -247,33 +269,27 @@ namespace ChefGPT.Server.Services
                 }
             }
 
-            return recipe?.Data;
+            return ideasResult?.Data ?? new List<Idea>();
         }
 
-        public async Task<RecipeImage?> CreateRecipeImage(string recipeTitle)
+        public Task<Recipe?> CreateRecipe(string title, List<string> ingredients)
         {
-            string url = $"{_baseUrl}images/generations";
-            string userPrompt = $"Create a restaurant product shot for {recipeTitle}";
+            throw new NotImplementedException();
+        }
 
-            ImageGenerationRequest request = new()
-            {
-                Prompt = userPrompt,
-            };
+        public Task<Recipe?> CreateGlutenFreeRecipe(string title, List<string> ingredients)
+        {
+            throw new NotImplementedException();
+        }
 
-            HttpResponseMessage httpResponse = await _httpClient.PostAsJsonAsync(url, request, _jsonOptions);
+        public Task<RecipeImage?> CreateRecipeImage(string recipeTitle)
+        {
+            throw new NotImplementedException();
+        }
 
-            RecipeImage? recipeImage = null;
-
-            try
-            {
-                recipeImage = await httpResponse.Content.ReadFromJsonAsync<RecipeImage>();
-            }
-            catch 
-            {
-                Console.WriteLine("Error: Recipe Image could not be retrieved.");
-            }
-
-            return recipeImage;
+        public Task<RecipeImage?> CreateGlutenFreeRecipeImage(string recipeTitle)
+        {
+            throw new NotImplementedException();
         }
     }
 }
