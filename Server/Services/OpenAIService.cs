@@ -137,7 +137,6 @@ namespace ChefGPT.Server.Services
         public async Task<List<Idea>> CreateRecipeIdeas(string mealtime, List<string> ingredientList)
         {
             string url = $"{_baseUrl}chat/completions";
-
             string systemPrompt = "You are a world-renowned chef. I will send you a list of ingredients and a meal time. You will respond with 5 ideas for dishes.";
             string userPrompt = "";
             string ingredientPrompt = "";
