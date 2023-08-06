@@ -86,7 +86,7 @@ else
 
     private async void GetGlutenFreeRecipe()
     {
-        string baseuri = "Recipe/GetGlutenFreeRecipe";
+        string baseuri = "GlutenFreeRecipe/GetGlutenFreeRecipe";
 
         if (rState is not null)
         {
@@ -101,7 +101,7 @@ else
                     };
 
                 //get recipe image
-                HttpResponseMessage responseImage = await Http.GetAsync($"Recipe/getGlutenFreeRecipeImage?title={HttpUtility.UrlEncode(title)}");
+                HttpResponseMessage responseImage = await Http.GetAsync($"GlutenFreeRecipe/getGlutenFreeRecipeImage?title={HttpUtility.UrlEncode(title)}");
                 var recipeImage = await responseImage.Content.ReadFromJsonAsync<RecipeImage>();
                 recipeImageUrl = recipeImage!.data[0]!.url;
 
