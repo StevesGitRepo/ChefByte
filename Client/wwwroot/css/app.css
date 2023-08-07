@@ -149,6 +149,18 @@ a, .btn-link {
     background-color: #ffe9f8;
 }
 
+.btn-dangerous {
+    color: #FFF;
+    background-color: #FF00A8;
+    border-color: #FF00A8;
+}
+
+.btn-dangerous:hover {
+    color: #FF00A8;
+    background-color: #FFF;
+        
+}
+
 .btn-outline-dangerous {
     color: #FF00A8;
     border-color: #FF00A8;
