@@ -4,7 +4,7 @@
     border-color: #FF00A8;
 }
 
-.btn-dangerous:hover {
+.btn-dangerous: hover {
     color: #FF00A8;
     background-color: #FFF;
 }
