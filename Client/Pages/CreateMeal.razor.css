@@ -1,10 +1,15 @@
-﻿.btn-dangerous {
+﻿:root {
+    --bs-pink: #FF00A8;
+}
+
+.btn-dangerous {
     color: #FFF;
-    background-color: #FF00A8;
-    border-color: #FF00A8;
+    background-color: var(--bs-pink);
+    border-color: var(--bs-pink);
 }
 
 .btn-dangerous:hover {
-    color: #FF00A8;
+    color: var(--bs-pink);
     background-color: #FFF;
 }
+
