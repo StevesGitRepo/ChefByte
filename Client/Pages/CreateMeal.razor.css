@@ -4,8 +4,8 @@
 
 .btn-dangerous {
     color: #FFF;
-    background-color: var(--bs-pink);
-    border-color: var(--bs-pink);
+    background-color: #FF00A8;
+    border-color: #FF00A8;
 }
 
 .btn-dangerous:hover {
