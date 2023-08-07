@@ -9,7 +9,7 @@
 }
 
 .btn-dangerous:hover {
-    color: var(--bs-pink);
+    color: #FF00A8;
     background-color: #FFF;
 }
 
