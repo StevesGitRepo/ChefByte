@@ -149,13 +149,13 @@ a, .btn-link {
     background-color: #ffe9f8;
 }
 
-.btn-dangerous {
+.btn-danger {
     color: #FFF;
     background-color: #FF00A8;
     border-color: #FF00A8;
 }
 
-.btn-dangerous:hover {
+.btn-danger:hover {
     color: #FF00A8;
     background-color: #FFF;
         
