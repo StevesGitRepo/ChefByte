@@ -204,6 +204,76 @@ namespace ChefGPT.Server.Services
             return ideasResult?.Data ?? new List<Idea>();
         }
 
+        public async Task<List<Idea>> CreateGlutenFreeRecipeIdeas(string mealtime, List<string> ingredientList)
+        {
+            string url = $"{_baseUrl}chat/completions";
+            string systemPrompt = "You are a world-renowned chef. I will send you a list of ingredients and a meal time. You will respond with 5 gluten-free ideas for dishes.";
+            string userPrompt = "";
+            string ingredientPrompt = "";
+
+            string ingredients = string.Join(" ", ingredientList);
+
+            if (string.IsNullOrEmpty(ingredients))
+            {
+                ingredientPrompt = "Suggest some ingredients for me.";
+            }
+            else
+            {
+                ingredientPrompt = $"I have {ingredients}";
+            }
+            userPrompt = $"The meal I want to cook is {mealtime}. {ingredientPrompt}";
+
+            ChatMessage systemMessage = new()
+            {
+                Role = "system",
+                Content = $"{systemPrompt}"
+            };
+            ChatMessage userMessage = new()
+            {
+                Role = "user",
+                Content = $"{userPrompt}"
+            };
+
+            ChatRequest request = new()
+            {
+                Model = "gpt-3.5-turbo-0613",
+                Messages = new[] { systemMessage, userMessage },
+                Functions = new[] { _ideaFunction },
+                FunctionCall = new { Name = _ideaFunction.Name }
+
+            };
+
+            HttpResponseMessage httpResponse = await _httpClient.PostAsJsonAsync(url, request, _jsonOptions);
+
+            ChatResponse? response = await httpResponse.Content.ReadFromJsonAsync<ChatResponse>();
+
+            //get the first message in the function call
+            ChatFunctionResponse? functionResponse = response.Choices
+                                                    .FirstOrDefault(m => m.Message?.FunctionCall is not null)
+                                                    .Message?
+                                                    .FunctionCall;
+            Result<List<Idea>>? ideasResult = new();
+
+            if (functionResponse?.Arguments is not null)
+            {
+                try
+                {
+                    ideasResult = JsonSerializer.Deserialize<Result<List<Idea>>>(functionResponse.Arguments, _jsonOptions);
+                }
+
+                catch (Exception ex)
+                {
+                    ideasResult = new()
+                    {
+                        Exception = ex,
+                        ErrorMessage = await httpResponse.Content.ReadAsStringAsync()
+                    };
+                }
+            }
+
+            return ideasResult?.Data ?? new List<Idea>();
+        }
+
         private bool NavigateTo(string v)
         {
             throw new NotImplementedException();
@@ -213,6 +283,55 @@ namespace ChefGPT.Server.Services
         {
             string url = $"{_baseUrl}chat/completions";
             string systemPrompt = "You are a world-renowned chef. Create the recipe with ingredients, instructions and a summary";
+            string userPrompt = $"Create a {title} recipe";
+
+            ChatMessage userMessage = new()
+            {
+                Role = "user",
+                Content = $"{systemPrompt} {userPrompt}"
+            };
+
+            ChatRequest request = new()
+            {
+                Model = "gpt-3.5-turbo-0613",
+                Messages = new[] { userMessage },
+                Functions = new[] { _recipeFunction },
+                FunctionCall = new { Name = _recipeFunction.Name }
+            };
+
+            HttpResponseMessage httpResponse = await _httpClient.PostAsJsonAsync(url, request, _jsonOptions);
+
+            ChatResponse? response = await httpResponse.Content.ReadFromJsonAsync<ChatResponse?>();
+
+            ChatFunctionResponse? functionResponse = response?.Choices?
+                                                             .FirstOrDefault(m => m.Message?.FunctionCall is not null)?
+                                                             .Message?
+                                                             .FunctionCall;
+            Result<Recipe>? recipe = new();
+
+            if (functionResponse?.Arguments is not null)
+            {
+                try
+                {
+                    recipe = JsonSerializer.Deserialize<Result<Recipe>>(functionResponse.Arguments, _jsonOptions);
+                }
+                catch (Exception ex)
+                {
+                    recipe = new()
+                    {
+                        Exception = ex,
+                        ErrorMessage = await httpResponse.Content.ReadAsStringAsync()
+                    };
+                }
+            }
+
+            return recipe?.Data;
+        }
+
+        public async Task<Recipe?> CreateGlutenFreeRecipe(string title, List<string> ingredients)
+        {
+            string url = $"{_baseUrl}chat/completions";
+            string systemPrompt = "You are a world-renowned chef. Create the gluten-free recipe with ingredients, instructions and a summary";
             string userPrompt = $"Create a {title} recipe";
 
             ChatMessage userMessage = new()
