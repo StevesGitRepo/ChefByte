@@ -67,7 +67,7 @@ footer {
     font-size: small;
 }
 
-.hidden-from-top {
+/*.hidden-from-top {
     opacity: 0;
     filter: blur(2px);
     transform: translateY(25%);
@@ -89,4 +89,4 @@ footer {
     transform: translateX(25%);
     transition: 1s;
     transition-delay: 1s;
-}
+}*/
