@@ -72,7 +72,7 @@ footer {
     filter: blur(2px);
     transform: translateY(25%);
     transition: 1s;
-    transition-delay: 1s;
+    transition-delay: 10s;
 }
 
 .hidden-from-left {
@@ -80,7 +80,7 @@ footer {
     filter: blur(2px);
     transform: translateX(-25%);
     transition: 1s;
-    transition-delay: 1s;
+    transition-delay: 10s;
 }
 
 .hidden-from-right {
@@ -88,5 +88,5 @@ footer {
     filter: blur(2px);
     transform: translateX(25%);
     transition: 1s;
-    transition-delay: 1s;
+    transition-delay: 10s;
 }
