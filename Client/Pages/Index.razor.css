@@ -66,3 +66,27 @@ footer {
 .small-footer-text {
     font-size: small;
 }
+
+.hidden-from-top {
+    opacity: 0;
+    filter: blur(2px);
+    transform: translateY(25%);
+    transition: 1s;
+    transition-delay: 1s;
+}
+
+.hidden-from-left {
+    opacity: 0;
+    filter: blur(2px);
+    transform: translateX(-25%);
+    transition: 1s;
+    transition-delay: 1s;
+}
+
+.hidden-from-right {
+    opacity: 0;
+    filter: blur(2px);
+    transform: translateX(25%);
+    transition: 1s;
+    transition-delay: 1s;
+}
